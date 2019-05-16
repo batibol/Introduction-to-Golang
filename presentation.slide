@@ -1542,13 +1542,10 @@ we need to be able to time out if
 - the above means that the fibonacci function will no longer have a loop from 1 to 10
 
 * Exercise: Generator-like Function
-- create a Fibonacci function which creates a channel, then spins
-up a goroutine to generate the Fibonacci numbers and write them into
-the channel
+- create a Fibonacci function which creates a channel, then spins up a goroutine to generate the Fibonacci numbers and write them into the channel
 - when the goroutine is done, it should close the channel
 - the function should return the channel and...
-- the main program should execute the range operator over the returned channel
-to display the results
+- the main program should execute the range operator over the returned channel to display the results
 
 * Signal Handling
 - sometimes we’d like our programs to intelligently handle Linux signals
