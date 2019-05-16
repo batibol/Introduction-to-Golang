@@ -109,7 +109,7 @@ Fun–Programming with Go should be fun!
 
 1. Download from https://golang.org/dl
 
-2. Installer should put `/usr/local/go/bin` in your `$PATH` (you may need to restart any open Terminal sessions for the change to take effect)
+2. Installer should put `go` in your `$PATH` (you may need to restart any open Terminal sessions for the change to take effect)
 
 3. Create workspace dir `$HOME/go` (or set `$GOPATH` to use a different location)
 
@@ -281,7 +281,7 @@ single line initialization
 .play src/iota.go /START OMIT/,/END OMIT/
 
 - << is left shift operator
-- 1 << 10 = 0b1000000000 = 2^10 = 102
+- 1 << 10 = 0b1000000000 = 2^10 = 1024
 
 * Type Conversion/Casting
 
@@ -407,7 +407,7 @@ _much_ _better_ than fmt, but somewhat lacking as loggers go
 
 * Exercise: Packages
 
-- create your own package in your `$GOROOT` directory
+- create your own package in your `$GOPATH`/src directory
 - be sure to export at least one function and one constant
 - build and install your package (go install)
 - write a program in different subdirectory which makes use of your package
@@ -493,12 +493,12 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 - they still may be referred to
 - often called lambda functions in other languages
 
-.play src/anonymous.go
+.play src/anonymous.go /START OMIT/,/END OMIT/
 
 * Anonymous Functions (cont'd)
 - functions are first class objects, that is, they can be assigned to variables as well as passed in to other functions
 
-.play src/anonymous2.go
+.play src/anonymous2.go /START OMIT/,/END OMIT/
 
 * init Function
 
@@ -893,7 +893,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * nil Slice
 
-- an empty slice is the same as nil, the Go equivalent of NULL in other languages
+- an empty slice is equal to nil, the Go equivalent of NULL in other languages
 
 .play -edit src/slice4.go /START OMIT/,/END OMIT/
 
@@ -1123,8 +1123,6 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - the package writer could change the implementation and as long as the same API was exposed, everything would still work
 .play -edit src/encapsulation.go
  
-- the above works for me because I've built and installed the `thing` package and I'm running on my machine–it won't work for you
-
 * Interfaces
 - an interface is a type, defined by a set of methods
 - or, an interface is a named collection of method signatures
