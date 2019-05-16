@@ -1,5 +1,9 @@
 package main
 
+import "fmt"
+
+// START OMIT
+
 // This function takes a function as a parameter. The function
 // passed in must take an int argument and return an int.
 func runsomething(f func(int) int, i int) int {
@@ -13,5 +17,7 @@ func main() {
     lambda := func(a int) int { // HL
         return a * 2 // HL
     } // HL
-    println(runsomething(lambda, -5))
+    fmt.Println(runsomething(lambda, -5))
 }
+
+// END OMIT
