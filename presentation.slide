@@ -1594,31 +1594,6 @@ among the most common/most difficult to debug issues in concurrent systems
 - go install -race mypkg
 - go test -race mypkg
 
-* JSON
-
-* JSON
-- Go offers built-in support for JSON encoding and decoding
-- An example with basic types...
-
-.play -edit src/json.go /START OMIT/,/END OMIT/
-
-* JSON (cont'd)
-- an example with slices and maps...
-
-.play -edit src/json2.go /START OMIT/,/END OMIT/
-
-* JSON (cont'd)
-
-- encoding and decoding of custom types
-
-.play -edit src/json3.go /START OMIT/,/END OMIT/
-
-* JSON (cont'd)
-- previous examples used bytes and strings as intermediates between the data and JSON representation on standard out
-- we can also stream JSON encodings directly to os.Writers like os.Stdout or even HTTP response bodies
-
-.play -edit src/json4.go 
-
 * Testing
 
 * Testing
@@ -2040,6 +2015,7 @@ the above comment is a complete sentence, beginning with the name of the element
 .link https://golang.org/doc/effective_go.html Effective Go
 .link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism
 .link https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html Less is Exponentially More
+.link https://awesome-go.com/
 
 #* after Closing Channels
 #-Do we need to add Timers/Tickers/Worker Pools? Perhaps.
