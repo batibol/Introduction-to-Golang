@@ -12,5 +12,6 @@ loop: // HL
             }
             fmt.Println(i, j)
         }
+		fmt.Println("j loop finished")
     }
 }

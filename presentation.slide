@@ -35,8 +35,6 @@ Programmers were choosing ease over safety and efficiency by moving to dynamical
 
 * "Clumsy type systems drive people to dynamically typed languages" -Robert Griesemer
 
-* "False dichotomy of static languages being 'slow and painful' and dynamic languages being 'fast and fun'" –Rob Pike
-
 * "Old programs read like quiet conversations between a well-spoken research worker and a well-studied mechanical colleague, not as a debate with a compiler. Who'd have guessed sophistication bought such noise?" -Dick Gabriel
 
 * Philosophy
@@ -154,16 +152,13 @@ go tool
 - go build will produce an executable
 - go install will install it in `$GOPATH/bin`
 
-
 * The Golang Playground 
 
-.link https://play.golang.org/ click here to try it
-
-- web service that runs on golang.org servers
 - receives a Go program
 - compiles, links, and runs the program inside a sandbox
-- returns the output
 - some limits on what we can do there: e.g., no keyboard input, random numbers are deterministic, time is constant (i.e., not current)
+
+.link https://play.golang.org/ click here to try it
 
 * Editors
 
@@ -280,7 +275,6 @@ single line initialization
 
 .play src/iota.go /START OMIT/,/END OMIT/
 
-- << is left shift operator
 - 1 << 10 = 0b1000000000 = 2^10 = 1024
 
 * Type Conversion/Casting
@@ -301,7 +295,7 @@ single line initialization
 .link https://golang.org/pkg/strconv strconv package
 
 - most common conversions are `strconv.Atoi()` (ASCII to integer) and `strconv.Itoa()` (vice versa)
-- you may not use this package that often as `fmt`, but it's good to have in your back pocket as there are some super useful functions there
+- super useful functions in there
 
 * Outputting
 
@@ -313,6 +307,8 @@ as we've seen, `print` and `println` are built in to Golang
 the `fmt` package contains versions that are more flexible (and it's considered more idiomatic to use `fmt`)
 
 believe it or not, it's pronounced `fumpt`
+
+* The fmt Package (cont'd)
 
 `fmt` also contains:
 
@@ -366,22 +362,30 @@ _much_ _better_ than fmt, but somewhat lacking as loggers go
 
 * What's a Package?
 
-- Go was designed to encourage good software engineering practices
-
-- an important part of high quality software is code reuse
-
-- every Go program is made up of packages, which are file(s) containing functions, variables, constants, etc., but no main
+- every Go program is made up of packages, which are file(s) containing functions, variables, constants, etc.
 
 - every Go program file has to be associated with a package via the `package` command at the top
 
-- programs start running in package `main`
+- programs start running in 
 
  package main
 
+* Package Naming
+
 - by convention, the package name is the same as the last element of the import path
 
-- e.g., the `math/rand` package comprises files that begin with the statement
+- e.g., to import the `math/rand` package, one would type
+ import "math/rand"
+
+but one would refer to objects inside the package, like so
+
+ rand.Int()
+
+Source files for the `rand` package are prefaced with
+
  package rand
+ 
+.link https://github.com/golang/go/blob/master/src/math/rand/rand.go Click here to view source code
 
 * The main Package
 
@@ -452,21 +456,16 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 * Exercise: Functions
 
 - write a function called `circleinfo` which accepts a float64 radius and returns two values, the area of the circle, and the circumference
-- area = PI * radius * radius
-- circumference = PI * radius * 2 
-- PI is defined in the math package
+- area = Pi * radius * radius
+- circumference = Pi * radius * 2 
+- Pi is defined in the math package
 
 * More About Return Values
 - you can name the return values
-- ...but I don't recommend it
+- you still need a `return` statement
 - *EDIT* *THE* *CODE* to remove the named return values and be sure it still runs properly
 
 .play -edit src/named.go
-
-* Variadic Functions
-- can be called with any number of arguments
-- e.g., `fmt.Println` is a variadic function you'll likely use regularly
-- in order to use them we need to know a few more concepts, then we'll return to this
 
 * Builtin Functions
 
@@ -518,7 +517,7 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 
 * Calling Functions
 
-- Golang is pass-by-value (like C, which was a starting point of sorts)
+- Golang is pass-by-value ONLY (like C, which was a starting point of sorts)
 
 - that means if you pass a variable or other object to a function, the function cannot change the variable/object because it receives a copy of it
 
@@ -527,7 +526,7 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 * How to Modify Parameters to a Function?
 
 - in order for a function to modify its parameters, the function must accept a _pointer_ to the object it wants to modify
-- a _pointer_ is a variable which contains the memory address of another variable (it is not the same thing as a _reference_
+- a _pointer_ is a variable which contains the memory address of another variable (it is not the same thing as a _reference_)
 - there are two operators for dealing with pointers
 - the & operator takes the _address_ of the object that follows it
 - the * operator _dereferences_ a pointer, that is, it gives you access to the object at the address contained in the pointer
@@ -542,7 +541,7 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 
 .play -edit src/passbyvalue2.go
 
-- of course we wouldn't use the intermediate variable `ptr_to_val`, it's there for instructive purposes
+- (of course we wouldn't use the intermediate variable `ptr_to_val`, it's there for instructive purposes)
 
 * Exercise: Pointers and Functions
 
@@ -609,14 +608,14 @@ Write a function `doubler` which takes an integer argument and doubles it
 - a statement can precede conditionals
 - any variables declared in this statement are available in all branches
 
-.play -edit src/if2.go
+.play -edit src/if2.go /START OMIT/,/END OMIT/
 
 * switch Statement
 - express conditionals across many branches
 - no parens
 - multiple expressions allowed
 
-.play -edit src/switch.go
+.play -edit src/switch.go /START OMIT/,/END OMIT/
 
 * switch: Multiple Expressions
 
@@ -655,7 +654,7 @@ Test your function with these inputs: 3, 5, 15, 4
 
 Go only has one looping construct
 
-basic for loop looks as it does in C/C++/Java, except
+- basic for loop looks as it does in C/C++/Java, except
 
 - no parens
 
@@ -910,7 +909,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 - Go’s built-in associative datatype (like Python dictionaries)
 - key/value pairs
-- unlike Python, a missing key does not cause an error
+- a missing key does not cause an error (as it does in Python)
 
 .play -edit src/map.go /START OMIT/,/END OMIT/
 
@@ -948,6 +947,12 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - the second value is the rune itself
 
 .play -edit src/range5.go /START OMIT/,/END OMIT/
+
+* Variadic Functions
+- can be called with any number of arguments
+- e.g., `fmt.Println` is a variadic function 
+
+.play -edit src/variadic.go
 
 * Exercise: Maps
 - use a map to translate Roman numerals into their Arabic equivalents

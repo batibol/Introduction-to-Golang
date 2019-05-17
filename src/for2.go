@@ -1,14 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+	"math/rand"
+)
 
 func main() {
-    var num int
-    fmt.Print("Start the countdown at what number? ")
-    fmt.Scanln(&num) 
+    _, _, sec := time.Now().Clock()
+	rand.Seed(int64(sec))
+    num := rand.Int31n(10) + 5
 
-    // above, doesn't work in playground, so...
-    num = 10
     for ; num > 0; num-- { // HL
         fmt.Println(num)
     } // HL

@@ -17,10 +17,12 @@ func read_state() {
     total := 0
     for {
         key := rand.Intn(5)           // pick a random map entry
-        mutex.Lock()                  // lock the shared state // HL
+        //mutex.Lock()                  // lock the shared state // HL
         total += state[key]           // read it!
-        mutex.Unlock()                // unlock // HL
-        atomic.AddUint64(&readOps, 1) // atomically increment count // HL
+        //mutex.Unlock()                // unlock // HL
+        //atomic.AddUint64(&readOps, 1) // atomically increment count // HL
+        //atomic.AddUint64(&readOps, 1) // atomically increment count // HL
+		readOps++
         time.Sleep(time.Millisecond)
     }
 }
@@ -28,10 +30,11 @@ func write_state() {
     for {
         key := rand.Intn(5)            // pick a random map position
         val := rand.Intn(100)          // pick a random number to write
-        mutex.Lock()                   // lock the shared state // HL
+        //mutex.Lock()                   // lock the shared state // HL
         state[key] = val               // write it!
-        mutex.Unlock()                 // unlock // HL
-        atomic.AddUint64(&writeOps, 1) // atomically increment count
+        //mutex.Unlock()                 // unlock // HL
+        //atomic.AddUint64(&writeOps, 1) // atomically increment count
+		writeOps++
         time.Sleep(time.Millisecond)
     }
 }

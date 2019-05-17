@@ -5,7 +5,7 @@ type ByteSize float64
 
 const (
 	_           = iota // ignore first value by assigning to empty
-	KB ByteSize = 1 << (10 * iota)
+	KB ByteSize = 1 << (10 * iota) // << is left shift operator
 	MB
 	GB
 	TB
