@@ -1596,14 +1596,29 @@ we need to be able to time out if
 .play -edit src/mutex2.go /START OMIT/,/END OMIT/
 
 * Race Detection
-a data race occurs when two goroutines access the same variable concurrently and at least one of the accesses is a write
+- a data race occurs when two goroutines access the same variable concurrently and at least one of the accesses is a write
 
-among the most common/most difficult to debug issues in concurrent systems
+- among the most common/most difficult to debug issues in concurrent systems
 
-- go run -race mysrc.go
-- go build -race mycmd
-- go install -race mypkg
-- go test -race mypkg
+.play -edit src/race.go
+
+* Race Detection (cont'd)
+
+- The Go race detector can detect data races while your program is running, but the executable must be instrumented with special code to perform the detection
+
+- To add race detection to your binary:
+
+ go build -race mycmd
+
+and then run it
+
+- You can, as you'd expect do this all in one step
+
+ go run -race mysrc.go
+
+- And you can use `go install` to add race detection to a package
+
+ go install -race mypkg
 
 * Testing
 
@@ -1614,10 +1629,10 @@ among the most common/most difficult to debug issues in concurrent systems
 .code src/stack.go
 
 * Testing (cont'd)
-- we will create a test in the same folder as our code
-- our test file(s) should be named *_test.go
-- first we have to import the testing package (https://golang.org/pkg/testing)
-- then we create one or more functions named Test* which take a pointer to a testing.T type (this type manages state for the test, etc.)
+- let's create test file(s) named `*_test.go` in the same folder as our code
+- first we have to import the testing package 
+.link https://golang.org/pkg/testing
+- then create one or more functions named `Test*` which accept a `*testing.T` (that object manages state for the test)
 
 .code src/testpushpop.go
 
@@ -1637,7 +1652,7 @@ add additional methods to the Stack module:
 - add tests for each of these methods
 
 * "Example" Tests
-- like unit tests, but instead of verifying the results of tests programmatically, it verifies the output of the test
+- like unit tests, but instead of verifying results programmatically, it verifies output
 - the correct output lives in comments after the commands
 
  func ExampleSalutations() {
@@ -1645,11 +1660,11 @@ add additional methods to the Stack module:
      fmt.Println("goodbye")
      // Output:
      // hello, and
-    // goodbye
- $ go test -v
+     // goodbye
  }
 
 - output from running the examples
+ $ go test -v
  === RUN   ExampleSalutations
  --- PASS: ExampleSalutations (0.00s)
  PASS
@@ -1658,11 +1673,15 @@ add additional methods to the Stack module:
 * "Example" Tests (cont'd)
 - the comment prefix "Unordered output:" matches any line order:
 
+ package perm_test
+
+ import "math/rand"
+
  func ExamplePerm() {
-     for _, value := range Perm(4) {
+     for _, value := range rand.Perm(4) {
          fmt.Println(value)
      }
-     // Unordered output: 4
+     // Unordered output:
      // 2
      // 1
      // 3
@@ -2030,6 +2049,3 @@ the above comment is a complete sentence, beginning with the name of the element
 .link https://github.com/golang/dep Go dependency management tool
 .link https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md Go 2.0 Draft: Error Handling
 .link https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md Go 2.0 Error Handling — Problem Overview
-
-#* after Closing Channels
-#-Do we need to add Timers/Tickers/Worker Pools? Perhaps.
