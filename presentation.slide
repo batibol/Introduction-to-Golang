@@ -763,7 +763,7 @@ OR: implement the Collatz Conjecture:
 .play -edit src/continuelabel.go
 
 * defer
-`defer` pushes a function call onto a list, and the saved calls are executed after the surrounding function returns
+`defer` pushes a function call onto a list, and the saved calls are executed just prior to the surrounding function returning
 
 commonly used to simplify functions with cleanup actions
 
