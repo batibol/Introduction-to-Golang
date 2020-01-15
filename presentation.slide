@@ -910,12 +910,14 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Exercise: Slices
 
-1. write a function `minmaxavg` which accepts a float64 slice and returns three values, the minimum value in the slice, the maximum value in the slice, and the average of all the values
+1. write a function `minmaxavg` which accepts a float64 slice and returns four values: the minimum value in the slice, the maximum value in the slice, the average of all the values, and an indication of success (as we did previously)
+
 2. write a function `fib` that returns a slice containing the first n Fibonacci numbers
 
 - the Fibonacci sequence is 1, 1, 2, 3, 5, 8...
 - each number is the sum of the previous Fibonacci numbers
 - so `fib(6)` should return an int slice of size 6 containing 1, 1, 2, 3, 5, 8
+- in the event of an error, fib should return the nil slice
 
 * Maps
 
@@ -972,6 +974,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - read in a Roman numeral
 - print Arabic equivalent
 - try it with MCLX = 1000 + 100 + 50 + 10 = 1160
+- complain if invalid Roman digits (e.g., 'Z') are found
 - EXTRA: if you have time, deal with the case where a smaller number precedes a larger number, e.g., XC = 100 - 10 = 90, or MCM = 1000 + (1000-100) = 1900
 
 * Additional Exercise: Maps
