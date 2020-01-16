@@ -5,9 +5,10 @@ import "fmt"
 
 // START OMIT
 func main() {
-    name, almaMater := "Ranveer Singh", "Indiana University"
-    age := 33
-    println(name, age, almaMater)
-    fmt.Println(time.Now())
+	name, almaMater := "Ranveer Singh", "Indiana University"
+	age := 34
+	println(name, age, almaMater)
+	fmt.Println(time.Now())
 }
+
 // END OMIT

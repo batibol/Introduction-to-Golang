@@ -22,7 +22,7 @@ http://www.developintelligence.com
 - Robert Griesemer, Rob Pike, Ken Thompson
 - Born out of frustration and shared dislike of C++
 
-* Goals
+* Goals of a Programming Language
 
 - efficient compilation
 - efficient execution
@@ -218,7 +218,7 @@ all variables initialized to zero unless specified
 
  var (
  	name      string = "Ranveer Singh"
- 	age       int    = 33
+ 	age       int    = 34
  	almaMater string = "Indiana University"
  )
 
@@ -226,14 +226,14 @@ types are inferred if initializers are present
 
  var (
  	name      = "Ranveer Singh"
- 	age       =  33
+ 	age       =  34
  	almaMater = "Indiana University"
  )
 
 single line initialization
 
  var (
- 	name, almaMater, age = "Ranveer Singh", "Indiana University", 33
+ 	name, almaMater, age = "Ranveer Singh", "Indiana University", 34
  )
 
 * Declaration + Initialization Shorthand
@@ -421,6 +421,9 @@ Source files for the `rand` package are prefaced with
 - ...and the Go compiler has no warnings
 - you may be annoyed by this, but the Go team explains it well...
 
+.play -edit src/unused.go
+
+* Possibly Painful Pedantry? (cont'd)
 “The presence of an unused variable may indicate a bug, while unused imports just slow down compilation, an effect that can become substantial as a program accumulates code and programmers over time. For these reasons, Go refuses to compile programs with unused variables or imports, trading short-term convenience for long-term build speed and program clarity.
 
 The reason for having no warnings. If it’s worth complaining about, it’s worth fixing in the code. And if it’s not worth fixing, it’s not worth mentioning.
@@ -471,21 +474,7 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 
 - docs in https://golang.org/pkg/builtin but code is not actually in a package
 
- func append(slice []Type, elems ...Type) []Type
- func cap(v Type) int {} // capacity of...
- func close(c chan<- Type) 
- func complex(r, i FloatType) ComplexType
- func copy(dst, src []Type) int
- func delete(m map[Type]Type1, key Type)
- func imag(c ComplexType) FloatType
- func len(v Type) int
- func make(t Type, size ...IntegerType) Type
- func new(Type) *Type
- func panic(v interface{})
- func print(args ...Type)
- func println(args ...Type)
- func real(c ComplexType) FloatType
- func recover() interface{}
+.play src/builtin.go
 
 * Anonymous Functions
 - functions that live in memory, but have no name
@@ -549,6 +538,7 @@ Write a function `doubler` which takes an integer argument and doubles it
 
 - your function should not return anything, it should modify its argument directly
 - write a main program to test your function
+- once you've done that, make it so that `doubler` calls a second function, `doublerHelper` which actually does the doubling
 
 * Functions as Arguments
 
@@ -569,11 +559,12 @@ Write a function `doubler` which takes an integer argument and doubles it
 - write a program which takes two command line args representing integers and prints out their sum
 - test it on your machine since it won't run in the playground
 - hint: remember Atoi in the `strconv` package (https://golang.org/pkg/strconv)
+- EXTRA: if you have time, add a third command line argument which is '+' or '-' and dictates whether you print out the sum or the difference
 
 * Interactive User Input
 - `fmt` package contains `Scan`, `Scanf`, `Scanln` functions to read from keyboard
 - as with the previous examples, we can't run these examples in the playground, since they require keyboard input
-- let's start with `Scanln`, which reads until a newline is seen
+- let's start with `Scanln`, which reads until a newline is seen (but spaces count as newlines here)
 
 .code src/input.go
 
@@ -589,11 +580,6 @@ Write a function `doubler` which takes an integer argument and doubles it
 - one exception: the verb %c always scans the next char in the input, even if it is a space (or tab etc.) or newline
 
 .code src/input3.go
-
-* Exercise: strconv
-
-- read in a string from the user
-- convert it to int using `strconv.Atoi()` and print the result
 
 * Control Structures
 
@@ -634,7 +620,7 @@ Write a function `doubler` which takes an integer argument and doubles it
 
 * switch: fallthrough
 
-- in C, each branch of a switch statement must be terminated with a `break` statement, or else execution will "fall through" to the next branch once a branch is executed
+- in C, each branch of a switch statement must be terminated with a `break` statement, or else execution will "fall through" to the next branch–WITHOUT RUNNING THE TEST–after a branch is executed
 - in Go, if you want to fall through, you must explicitly state it
 
 .play -edit src/switch5.go /START OMIT/,/END OMIT
