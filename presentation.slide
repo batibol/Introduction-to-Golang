@@ -2044,9 +2044,11 @@ the above comment is a complete sentence, beginning with the name of the element
 .link https://play.golang.org/ Playground
 .link https://tour.golang.org/welcome/1 Tour of Go
 .link https://golang.org/doc/effective_go.html Effective Go
+.link https://talks.golang.org/2013/go4python.slide Go for Pythonistas
 .link https://blog.golang.org/concurrency-is-not-parallelism Concurrency is not Parallelism
 .link https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html Less is Exponentially More
 .link https://awesome-go.com/ Go frameworks, libraries and software!
 .link https://github.com/golang/dep Go dependency management tool
+.link https://github.com/golang/go/wiki/SliceTricks Go Slice Tricks
 .link https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md Go 2.0 Draft: Error Handling
 .link https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md Go 2.0 Error Handling — Problem Overview
