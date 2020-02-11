@@ -8,11 +8,9 @@ import (
 )
 
 func main() {
-	// get current time, extract seconds (and discard hours and minutes)
-	_, _, sec := time.Now().Clock()
-	// use seconds to seed the random number generator
-	rand.Seed(int64(sec))
-	r := rand.Int()
+	sec := time.Now().Unix() // get seconds since 1970
+	rand.Seed(int64(sec))    // use seconds to seed random number generator
+	r := rand.Int()          // generate a random integer
 
 	switch { // HL
 	case r%2 == 0:

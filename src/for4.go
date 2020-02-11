@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"math/rand"
+	"time"
 )
 
 func main() {
-    _, _, sec := time.Now().Clock()
-	rand.Seed(int64(sec))
+	sec := time.Now().Unix() // seconds since 1970...
+	rand.Seed(sec)           // seed the random number generator
 
-    for { // HL
-        fmt.Println("Infinite loop!")
+	for { // HL
+		fmt.Println("Infinite loop!")
 		if rand.Int31n(10) > 8 {
-        	break
+			break
 		}
-    } // HL
+	} // HL
 }

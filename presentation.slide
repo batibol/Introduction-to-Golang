@@ -306,19 +306,7 @@ as we've seen, `print` and `println` are built in to Golang
 
 the `fmt` package contains versions that are more flexible (and it's considered more idiomatic to use `fmt`)
 
-believe it or not, it's pronounced `fumpt`
-
-* The fmt Package (cont'd)
-
-`fmt` also contains:
-
-- `Sprint/Sprintf/Sprintln` functions for printing to strings
-
-later on, we will see:
-
-- `Scan/Scanf/Scanln` functions for reading from the keyboard
-- `Sscan/Sscanf/Sscanln` functions for reading from strings
-- functions for reading/writing from/to files
+believe it or not, it's pronounced "`fumpt`"
 
 * fmt.Printf
 
@@ -335,6 +323,13 @@ later on, we will see:
 - %t = print a Boolean value as true or false
 
 .play -edit src/printf2.go /START OMIT/,/END OMIT/
+
+* Sprintf
+
+- "print" into a string, rather than to the screen
+- also `Sprint` and `Sprintln`
+
+.play -edit src/sprintf.go
 
 * Logging
 
@@ -413,7 +408,8 @@ Source files for the `rand` package are prefaced with
 
 - create your own package in your `$GOPATH`/src directory
 - be sure to export at least one function and one constant
-- build and install your package (go install)
+- build your package with go build
+- install your package with go install
 - write a program in different subdirectory which makes use of your package
 
 * Possibly Painful Pedantry?
@@ -473,8 +469,10 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 * Builtin Functions
 
 - docs in https://golang.org/pkg/builtin but code is not actually in a package
+- we've alread seen `print` and `println`
+- `complex`, `real`, and `imag` are for imaginary numbers
 
-.play src/builtin.go
+.code src/builtin.go
 
 * Anonymous Functions
 - functions that live in memory, but have no name
@@ -515,7 +513,7 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 * How to Modify Parameters to a Function?
 
 - in order for a function to modify its parameters, the function must accept a _pointer_ to the object it wants to modify
-- a _pointer_ is a variable which contains the memory address of another variable (it is not the same thing as a _reference_)
+- a _pointer_ is a variable which contains the memory address of another variable 
 - there are two operators for dealing with pointers
 - the & operator takes the _address_ of the object that follows it
 - the * operator _dereferences_ a pointer, that is, it gives you access to the object at the address contained in the pointer
@@ -534,8 +532,9 @@ Nowadays, most Go programmers use a tool, `goimports`, which automatically rewri
 
 * Exercise: Pointers and Functions
 
-Write a function `doubler` which takes an integer argument and doubles it
+Write a function `doubler` which takes a string argument and doubles it, i.e., "Golang" would become "GolangGolang"
 
+- note that '+' is the way to concatenate two strings
 - your function should not return anything, it should modify its argument directly
 - write a main program to test your function
 - once you've done that, make it so that `doubler` calls a second function, `doublerHelper` which actually does the doubling
@@ -593,6 +592,7 @@ Write a function `doubler` which takes an integer argument and doubles it
 * if / else (cont'd)
 - a statement can precede conditionals
 - any variables declared in this statement are available in all branches
+- very idiomatic in Golang
 
 .play -edit src/if2.go /START OMIT/,/END OMIT/
 
@@ -890,7 +890,9 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * nil Slice
 
-- an empty slice is equal to nil, the Go equivalent of NULL in other languages
+- The zero value of a slice is nil
+- a nil slice has a length and capacity of 0 (and has no underlying array)
+- note that a nil slice is not the same as an empty slice
 
 .play -edit src/slice4.go /START OMIT/,/END OMIT/
 
@@ -953,6 +955,11 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - e.g., `fmt.Println` is a variadic function 
 
 .play -edit src/variadic.go
+
+* Variadic Functions (cont'd)
+- if you already have the args in a slice, you can pass them as individual args using the ... notation
+
+.play -edit src/variadic2.go /START OMIT/,/END OMIT/
 
 * Exercise: Maps
 - use a map to translate Roman numerals into their Arabic equivalents
@@ -1286,7 +1293,7 @@ Given the following type:
 
 * Error Handling
 - Go does not have exceptions, as we're used to in Python, Java, etc.
-- it’s idiomatic to communicate errors via an separate return value
+- it’s idiomatic to communicate errors via a separate return value
 - the ability to return multiple values is an improvement over C, where programmers often overload a single result value to indicate error
 - error detection and handling in Go is easy since we can use the same language constructs we're used to
 - by convention, errors are the last return value and are of type `error`:
@@ -1523,7 +1530,7 @@ we need to be able to time out if
 
 * Non-Blocking Channel Operations
 - sends and receives on channels are blocking
-- ...but, we use `select` with a `default` to implement non-blocking sends and receives
+- ...but, we can use `select` with `default` to implement non-blocking send/receive
 
 .play -edit src/select3.go /START OMIT/,/END OMIT/
 
@@ -1566,9 +1573,9 @@ we need to be able to time out if
 .play -edit src/waitingforgo.go /START OMIT/,/END OMIT/
 
 * Exercise: Waiting for Goroutines
-- create 25 goroutines, each of which sleeps a random number of seconds before completing
+- create 25,000 goroutines, each of which sleeps a random number of seconds before completing
 - after sleeping, the go routine should print a message like _Goroutine_ _n_ _done_ where n is the number of the goroutine
-- when all 25 are done, the main program should notify you that all goroutines have finished
+- when all 25,000 are done, the main program should notify you that all goroutines have finished
 
 * More Interesting Example
 - go get a bunch of URLs

@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"math/rand"
+	"time"
 )
 
 func main() {
-    _, _, sec := time.Now().Clock()
-	rand.Seed(int64(sec))
-    num := rand.Int31n(10) + 5
+	sec := time.Now().Unix()   // seconds since 1970...
+	rand.Seed(sec)             // seed the random number generator
+	num := rand.Int31n(10) + 5 // generate random num between 5 and 14
 
-    for ; num > 0; num-- { // HL
-        fmt.Println(num)
-    } // HL
-    fmt.Println("Blast off!")
+	for ; num > 0; num-- { // HL
+		fmt.Println(num)
+	} // HL
+	fmt.Println("Blast off!")
 }

@@ -4,20 +4,21 @@ import "fmt"
 
 // START OMIT
 func main() {
-    // To create an empty map, use make
-    m := make(map[string]int)
-    // Set key/value pairs
-    m["key1"] = 14
-    m["key2"] = -2
-    m["key3"] = 0
-    fmt.Println(m)
-    fmt.Println("len:", len(m)) // HL
-    delete(m, "key2") // HL
-    fmt.Println(m)
+	// To create an empty map, use make
+	sbux := make(map[string]int)
+	// Set key/value pairs
+	sbux["tall"] = 12
+	sbux["grande"] = 16
+	sbux["venti"] = 20
+	fmt.Println(sbux)
+	fmt.Println("len:", len(sbux)) // HL
+	delete(sbux, "grande")         // HL
+	fmt.Println(sbux)
 
-    // Optional second return value indicates if key was in map.
-    // Used to disambiguate between missing keys and zero values.
-    _, present := m["key2"]
-    fmt.Println("key2 present?", present)
+	// Optional second return value indicates if key was in map.
+	// Used to disambiguate between missing keys and zero values.
+	_, present := sbux["grande"]
+	fmt.Println("grande present?", present)
 }
+
 // END OMIT
