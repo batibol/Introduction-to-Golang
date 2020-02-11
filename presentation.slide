@@ -558,7 +558,6 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 - write a program which takes two command line args representing integers and prints out their sum
 - test it on your machine since it won't run in the playground
 - hint: remember Atoi in the `strconv` package (https://golang.org/pkg/strconv)
-- EXTRA: if you have time, add a third command line argument which is '+' or '-' and dictates whether you print out the sum or the difference
 
 * Interactive User Input
 - `fmt` package contains `Scan`, `Scanf`, `Scanln` functions to read from keyboard
