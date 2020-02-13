@@ -5,11 +5,11 @@ import "fmt"
 // START OMIT
 import "errors"
 
-var CountErr = errors.New("Invalid count")            // HL
-var EmptyErr = errors.New("Can't star empty string!") // HL
+var CountErr = errors.New("Invalid count")                 // HL
+var EmptyErr = errors.New("Can't replicate empty string!") // HL
 // END OMIT
 
-// Like Python * for strings
+// Like Python * for strings, i.e., string replication
 func stringstar(str string, count int) (string, error) {
 	result := ""
 	if count < 1 {

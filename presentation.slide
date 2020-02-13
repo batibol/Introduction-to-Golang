@@ -779,7 +779,7 @@ three rules
 * recover 
 - built-in function that regains control of a panicking goroutine
 - only useful inside deferred functions
-- during normal execution, a call to `recover()` will return nil and have no other effect
+- during normal execution, a call to `recover()` will return nil (like NULL in other languages) and have no other effect
 - if current goroutine is panicking, a call to recover() will capture the value passed to `panic()` and resume normal execution
 - let's add `recover()` to previous example...
 
@@ -1070,32 +1070,19 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 *EDIT* *THE* *CODE* so that the Uppercase method takes a parameter _suffix_, which is appended to the end of the string
 
 * Embedding
-- including a type as a nameless parameter within another type
-- this makes the exported parameters and methods of the embedded type accessible through the embedding type
+- including ("embedding") a type as a nameless parameter within another type
+- this makes the exported parameters and methods of the _embedded_ type accessible through the _embedding_ type
 - compiler does this via promotion–the exported properties and methods of the embedded type are promoted to the embedding type
-- suppose in addition to our `mountain` type, we also want to represent a `climb`, in which a climber climbs a particular mountain...
 
 * Embedding (cont'd)
-
- type Mountain struct {
- 	Name      string
- 	Elevation int
- }
-
- type Climb struct {
- 	Name      string // these two fields are duplicated
- 	Elevation int    // ...
- 	Climber   string
- }
-
-- the duplicate field names are a bit unsettling, but we can simplify things by embedding (or composing) a mountain inside climb
+- suppose in addition to our `mountain` type, we also want to represent a `climb`, in which a climber climbs a particular mountain...
 
  type Climb struct {
  	Mountain
  	Climber   string
  }
 
-- the fields in `Mountain` are promoted to be part of `Climb`
+- the fields in `Mountain` (_name_ and _elevation_) are promoted to be part of `Climb`
 
 * Embedding (cont'd)
 
@@ -1116,6 +1103,18 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - now we'll demonstrate the object of type Climb can invoke the _HowBig()_ method
 
 .play -edit src/method6.go /START OMIT/,/END OMIT/
+
+* Overloading
+- suppose we want the _embedding_ type to _override_ a methodin the _embedded_ type
+- that is, we want a method in the embedding type to have the same name as a method in the embedded type
+- when we do this, the method in the embedded type will be "hidden" or "overriden" by the method in the embedding type
+- ...but we can access the overriden method by referring to it explicitly
+
+.play -edit src/embed2.go /START OMIT/,/END OMIT/
+
+* Overloading (cont'd)
+
+.play -edit src/embed3.go /START OMIT/,/END OMIT/
 
 * Encapsulation
 - hiding implementation details when an interface to user-defined types is provided
@@ -1214,7 +1213,7 @@ here's a generic measure function which works on any geometry
 
 .code src/interfacevalnil.go /START OMIT/,/END OMIT/
 
-* Interface Values (cont'd)
+* Interface Values with nil Underlying Value (cont'd)
 .play -edit src/interfacevalnil.go /START2 OMIT/,/END2 OMIT/
 
 * nil Interface Value
@@ -1229,7 +1228,7 @@ here's a generic measure function which works on any geometry
 * The Empty Interface
 - the interface type that specifies zero methods is known as the empty interface: `interface{}`
 - an empty interface may hold values of any type, since every type implements at least zero methods
-- use case–code that handles values of unknown type (e.g., `fmt.Print` takes any number of arguments of type `interface{}`)
+- use case–code that handles values of unknown type (e.g., `fmt.Println` takes any number of arguments of type `interface{}`)
 
 .play -edit src/empty.go /START OMIT/,/END OMIT/
 
@@ -1282,6 +1281,8 @@ Given the following type:
 3. Add a `Stringer` method to `IPAddr` so that it is printed out in dotted notation (e.g., "127.0.0.1")
 4. Test your code in the playground or locally
 
+* GO BACK TO SLIDE 148 
+
 * Error Handling
 
 * Error Handling
@@ -1296,14 +1297,28 @@ Given the following type:
  }
 
 - ...in other words, any type that has an `Error()` method that returns a string
-- let's see an example using Go's built-in errors...
+- let's see an example using Go's built-in `errors` package
 
 * Error Handling (cont'd)
-- `errors.New()` returns a basic error
-- pre-defining errors can be cleaner
-- an error of `nil` means no error (`nil` is like NULL in other languages)
+- an error of `nil` means no error 
+- `errors.New()` returns a basic error which your functions can return
 
-.code src/error.go /START OMIT/,/END OMIT/
+ import "errors"
+
+ var FilenameErr = errors.New("Invalid filename!")            
+ var NotFoundErr = errors.New("File not found!") 
+ ...
+ if something_bad_happened {
+     return 0, NotFoundErr
+ }
+
+* Error Handling (cont'd)
+
+- in addition, you can use `fmt.Errorf` to do `Printf`-like formatting and returns the result as an `error` created by `errors.New`
+
+ if f < 0 {
+    return 0, fmt.Errorf("math: square root of negative number %g", f)
+ }
 
 * Error Handling (cont'd)
 
@@ -1320,7 +1335,7 @@ Given the following type:
 .play -edit src/error3.go /START OMIT/,/END OMIT/
 
 * Lab: Error Handling
-- modify your square root function from earlier to return a custom error as well as the square root
+- modify your square root (or other) function from earlier to return a custom error as well as the existing return value
 - test it with a main program that sends a valid argument as well as an invalid argument
 - access the fields of the custom error programmatically using type assertion
 
@@ -1448,7 +1463,7 @@ to encourage this way of thinking Golang has reduced it to a slogan:
 
 - of course, this approach can be taken too far...
 
-- e.g., reference counts may be best implemented by putting a mutex (defined later) around an integer
+- e.g., reference counts may be best implemented by putting a mutex (essentially, a "lock") around an integer
 
 Go includes low-level concurrency primitives as well, but you often need not concern yourself with low-level details
 
@@ -1584,7 +1599,7 @@ we need to be able to time out if
 
  import "sync"
  var state = make(map[int]int) // For our example the `state` will be a map
- var mutex = &sync.Mutex{}     // This `mutex` will synchronize access to `state`
+ var mutex sync.Mutex          // This `mutex` will synchronize access to `state`
  var readOps uint64            // We'll keep track of how many read...
  var writeOps uint64           // ...and write operations we do
 
@@ -1690,7 +1705,7 @@ add additional methods to the Stack module:
  }
 
 * Exercise: Example Tests
-- write a Golang program that takes a string message such as "Hello from Hyderabad", splits it into words, and then enters the words as keys in a map (the values are up to you)
+- write a Golang program that takes a string message such as "Hello from Intuit", splits it into words, and then enters the words as keys in a map (the values are up to you)
 - iterate through the map and output the keys, which will be in a random order
 - write an "example" test to ensure the output is correct
 
@@ -1993,51 +2008,6 @@ the above comment is a complete sentence, beginning with the name of the element
  // punctuation properly.
 
 - let's try it with our stack package...
-
-* Templating
-
-* Templates
-- objects that manage some text with special placeholders called actions
-- actions are enclosed by double curly braces: {{ some action }}
-- upon executing the template, you provide it with a Go struct containing the data the placeholders need
-
-* Text Template Example
-
-.play -edit src/template.go /START OMIT/,/END OMIT/
-
-.link https://code.tutsplus.com/tutorials/text-generation-with-go-templates--cms-30441 Text Generation with Go Templates
-
-* Template Data Accessors
-- ...pull data out of (nested) structs using dotted notation
-- this example includes error checking
-
-.play -edit src/template2.go /START OMIT/,/END OMIT/
-
-* Calling Functions in Templates
-- functions elevate what can be done can done with templates
-- you can add template-specific functions, or use global functions
-.link https://golang.org/pkg/text/template/#hdr-Functions
-- `Must()` helper function makes things a bit easier...
-
-.play -edit src/template3.go
-
-* Pipelines in Templates
-- pipelines let you call multiple functions, similar to a pipeline in Bash
-
-.play -edit src/template4.go
-
-* Variables in Templates
-- variables can be used to store values for re-use
-
-.play -edit src/template5.go
-
-* More Templates
-- you can even have conditionals and loops in templates!
-- most useful for large swaths of text, otherwise could use fmt.Sprintf
-- there are also HTML templates (html/template)
-- same interface as the text template, designed to generate HTML safe from code injection
-- safety performed by carefully sanitizing the data before embedding it in the template
-- assumption is that template authors are trusted, but data provided to template can't be trusted
 
 * Resources
 .link https://golang.org/doc/ Official Docs
