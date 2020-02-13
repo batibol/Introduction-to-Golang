@@ -1281,8 +1281,6 @@ Given the following type:
 3. Add a `Stringer` method to `IPAddr` so that it is printed out in dotted notation (e.g., "127.0.0.1")
 4. Test your code in the playground or locally
 
-* GO BACK TO SLIDE 148 
-
 * Error Handling
 
 * Error Handling
@@ -1562,12 +1560,6 @@ we need to be able to time out if
 - add a second unbuffered channel called `quit`, which is used by the fibonacci routine to know there is no more work to do (in other words, fibonacci should listen for a message on the `quit` channel, and if it receives the message, it should stop generating Fibonacci numbers)
 - the above means that the fibonacci function will no longer have a loop from 1 to 10
 
-* Exercise: Generator-like Function
-- create a Fibonacci function which creates a channel, then spins up a goroutine to generate the Fibonacci numbers and write them into the channel
-- when the goroutine is done, it should close the channel
-- the function should return the channel and...
-- the main program should execute the range operator over the returned channel to display the results
-
 * Signal Handling
 - sometimes we’d like our programs to intelligently handle Linux signals
 - e.g., want a server to gracefully shut down when it receives a SIGTERM
@@ -1635,6 +1627,26 @@ and then run it
 - And you can use `go install` to add race detection to a package
 
  go install -race mypkg
+
+* Exercise
+- create a program which uses a goroutine to simulate a database server
+- your "database server" should simply be a thread which accepts an integer representing some "work" to do and it sleeps for that amount of time before accepting more work
+- your main routine should get integers from the user, and pass those to the "server"
+- once you have that working, make it more complex...
+- add a second server goroutine, and use a select statement to send the work to whichever server is able to accept it (to test this, ssend a big chunk of work, i.e., a large int, to one of them, and then be sure the other can do subsequent work in the meantime)
+
+* Exercise (cont'd)
+- still more...how about a load balancer goroutine which spins up new server routines as needed up to some maximum (i.e., if it sees that no servers are available, it spins up more)
+- to do this effectively you'll likely need reflection, so let's simplify by just trying to send to each server, and if they are all busy, launch a new goroutine
+- you'll likely need an array/slice of channels
+- make it so each server goroutine shuts down if it hasn't done work for a while, so even if you hit your max of, say 10, servers, they should start shutting down as the workload decreases
+
+* Exercise (cont'd)
+- although we normally would share memory by communicating...
+- add a shared queue, which can simply a slice of ints that you add to by appending, and remove from by doing `q = q[1:]`
+- wrap the queue in a `Mutex` to prevent simultaneous accesses
+- the queue holds work to be performed and is filled by the main routine and drained by the load balancer, or remove the load balancer and let the workers remove something from the queue as they are free
+- also let workers randomly reject work and place it back in the wqqueue...
 
 * Testing
 
@@ -1854,114 +1866,6 @@ aim for 100% coverage
 
 - but only if your tests are actually testing what they should be
 
-* Benchmarking
-
-* Benchmarks
-- examine the performance of your Go code
-- part of the `testing` package
-- placed inside `*_test.go` files, prefaced with `Benchmark` as opposed to Test
-- benchmark functions take a single argument, a pointer to a testing.B
-- executed with go test -bench <regexp>
-- use . to run all benchmarks
-- benchmarks are run several times by the testing package
-- the value of b.N will increase each time until the benchmark runner is satisfied with the stability of the benchmark
-
-* Benchmarks (cont'd)
-
- func Fib(n int) int {
-         if n < 2 {
-                 return n
-         }
-         return Fib(n - 1) + Fib(n - 2)
- }
-
- func BenchmarkFib10(b *testing.B) {
-         // run the Fib function b.N times
-         for n := 0; n < b.N; n++ {
-                 Fib(10)
-         }
- }
-
- 
- 
- 
- 
-  
- .
-
-.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go How to Write Benchmarks in Go
-
-* Benchmarks (cont'd)
- $ go test -bench=.
- goos: darwin
- goarch: amd64
- pkg: fib
- BenchmarkFib10-4        5000000           359 ns/op
- PASS
- ok      fib    2.184s
-
-- PASS output is from running tests
-- use -run <regexp> if you want to avoid running tests
-- second line is number of times test was run (i.e., b.N), followed by average execution time for the test
-
-.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go How to Write Benchmarks in Go
-
-* Benchmarking Various Inputs
-- given that the Fib function is the classic recursive implementation, we’d expect it to slow down exponentially for large values of n
-- we can rewrite our benchmark slightly using a common pattern
-
- func benchmarkFib(i int, b *testing.B) {
-        for n := 0; n < b.N; n++ {
-                 Fib(i)
-         }
- }
-
- func BenchmarkFib1(b *testing.B)  { benchmarkFib(1, b) }
- func BenchmarkFib2(b *testing.B)  { benchmarkFib(2, b) }
- func BenchmarkFib3(b *testing.B)  { benchmarkFib(3, b) }
- func BenchmarkFib10(b *testing.B) { benchmarkFib(10, b) }
- func BenchmarkFib20(b *testing.B) { benchmarkFib(20, b) }
- func BenchmarkFib40(b *testing.B) { benchmarkFib(40, b) }
-
-- note that `benchmarkFib` has to be private to prevent the testing driver from trying to run it directly
-
-.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go How to Write Benchmarks in Go
-
-* Benchmarking Various Inputs (cont'd)
- $ go test -bench=.
- goos: darwin
- goarch: amd64
- pkg: fib
- BenchmarkFib1-4        1000000000             2.59 ns/op
- BenchmarkFib2-4        200000000             7.07 ns/op
- BenchmarkFib3-4        100000000            12.0 ns/op
- BenchmarkFib10-4        3000000           433 ns/op
- BenchmarkFib20-4          30000         52993 ns/op
- BenchmarkFib40-4              2     779718761 ns/op
- PASS
- ok      fib    12.440s
-
-- each benchmark runs for a minimum of 1 second by default
-- if the second has not elapsed when the Benchmark function returns, the value of b.N is increased in the sequence 1, 2, 5, 10, 20, 50, … and the function run again
-- the final `BenchmarkFib40` only ran twice with the average just under 1s per run
-- we can increase the minimum benchmark time using the -benchtime flag to produce a more accurate result
-
-* Benchmarking Gotchas
-
-- two examples of a faulty benchmark...
-
- func BenchmarkFibWrong(b *testing.B) {
-         for n := 0; n < b.N; n++ {
-                 Fib(n)
-         }
- }
-
- func BenchmarkFibWrong2(b *testing.B) {
-         Fib(b.N)
- }
-
-- these benchmarks will never complete because the runtime of the benchmark increases as b.N grows
-
 * Documentation
 
 * Documentation
@@ -2008,6 +1912,14 @@ the above comment is a complete sentence, beginning with the name of the element
  // punctuation properly.
 
 - let's try it with our stack package...
+
+* Exercise: Object-Oriented Programming
+
+- create a `bank` package which defines a type called a `BankAccount`
+- at the very least, the `BankAccount` type should have an owner name (string) and a balance (float64)
+- add methods `Deposit`, `Withdraw`, `CheckBalance`
+- also add a Stringer method so that a `BankAccount` can be printed out in a nice human-readable way
+- EXTRA: add a method to combine two accounts into a joint account
 
 * Resources
 .link https://golang.org/doc/ Official Docs
