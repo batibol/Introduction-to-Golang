@@ -9,12 +9,17 @@ http://www.developintelligence.com
 
 * Overview
 
-* Objective
+* Introductions
+
+You:
 
 - Who are you?
 - What is your job title?
 - What do you do here?
 - What's your programming background?
+
+Me:
+
 - Who am I?
 
 * History
@@ -758,10 +763,11 @@ three rules
 
 * Exercise: defer
 
-- write a program which repeatedly asks to enter a word
-- your program should quit when the user enters "quit"
-- if the length of the word is even, your program should print the word out
-- if the length of the word is odd, your program should defer the printing of the word
+- write a program which repeatedly asks to enter an integer
+- your program should quit when the user enters a 0
+- if the number is negative, the program should print an error and quit
+- your program should perform a "cleaup action" when it quits, and this cleanup action should occur regardless of whether it quits normally or if there was an error (negative number)
+- put your cleanup action in a deferred anonymous function
 
 * panic
 
@@ -785,6 +791,12 @@ three rules
 
 * recover (cont'd)
 .play -edit src/deferpluspanicplusrecover.go /START OMIT/,/END OMIT/
+
+* Exercise: panic/recover
+
+- modify the previous exercise to `panic` when a negative number is entered (we wouldn't really use `panic` for something like this)
+- use the `math/rand` module to `panic` randomly, say 10% of the time, with a different panic message
+- have the calling function `recover`, but only if the panic was due to a negative number-if the random panic occurs, the program should crash with a panic
 
 * Scope
 
@@ -890,6 +902,8 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 .play -edit src/slice4.go /START OMIT/,/END OMIT/
 
 * Exercise: Slices
+
+- there are two main ways to write a function that uses slices…either accept as slice as input and iterate through it, or have your function return a slice that it allocates from within the function
 
 1. write a function `minmaxavg` which accepts a float64 slice and returns four values: the minimum value in the slice, the maximum value in the slice, the average of all the values, and an indication of success (as we did previously)
 
@@ -1068,6 +1082,13 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 .play -edit src/stringmethod.go /START OMIT/,/END OMIT/
 
 *EDIT* *THE* *CODE* so that the Uppercase method takes a parameter _suffix_, which is appended to the end of the string
+
+* Exercise: User-Defined Methods
+
+- create a `bank` package which defines a type called a `BankAccount`
+- at the very least, the `BankAccount` type should have an owner name (string) and a balance (float64)
+- add methods `Deposit`, `Withdraw`, `CheckBalance`
+- EXTRA: add a method to combine two accounts into a joint account
 
 * Embedding
 - including ("embedding") a type as a nameless parameter within another type
@@ -1272,14 +1293,16 @@ here's a generic measure function which works on any geometry
 
 * Exercise: Stringers
 
-Given the following type:
+1. Add a Stringer method to your `Bank` object so that a `BankAccount` can be printed out in a nice human-readable way
+
+2. Given the following type:
 
  type IPAddr [4]byte
 
-1. Define a map which maps hostnames (string) to `IPAddr`
-2. Add a few hostnames to your map, e.g., "localhost.com" (the addresses don't have to be correct)
-3. Add a `Stringer` method to `IPAddr` so that it is printed out in dotted notation (e.g., "127.0.0.1")
-4. Test your code in the playground or locally
+- Define a map which maps hostnames (string) to `IPAddr`
+- Add a few hostnames to your map, e.g., "localhost.com" (the addresses don't have to be correct)
+- Add a `Stringer` method to `IPAddr` so that it is printed out in dotted notation (e.g., "127.0.0.1")
+- Test your code in the playground or locally
 
 * Error Handling
 
@@ -1630,7 +1653,7 @@ and then run it
 
 * Exercise
 - create a program which uses a goroutine to simulate a database server
-- your "database server" should simply be a thread which accepts an integer representing some "work" to do and it sleeps for that amount of time before accepting more work
+- your "database server" should simply be a goroutine which accepts an integer representing some "work" to do and it sleeps for that amount of time before accepting more work
 - your main routine should get integers from the user, and pass those to the "server"
 - once you have that working, make it more complex...
 - add a second server goroutine, and use a select statement to send the work to whichever server is able to accept it (to test this, ssend a big chunk of work, i.e., a large int, to one of them, and then be sure the other can do subsequent work in the meantime)
@@ -1643,7 +1666,10 @@ and then run it
 
 * Exercise (cont'd)
 - although we normally would share memory by communicating...
-- add a shared queue, which can simply a slice of ints that you add to by appending, and remove from by doing `q = q[1:]`
+- add a shared queue, which can simply a slice of ints that you add to by appending, and remove from by slicing the queue, i.e.,
+ // remove an item from the queue
+ item = queue[0]
+ queue = queue[1:]
 - wrap the queue in a `Mutex` to prevent simultaneous accesses
 - the queue holds work to be performed and is filled by the main routine and drained by the load balancer, or remove the load balancer and let the workers remove something from the queue as they are free
 - also let workers randomly reject work and place it back in the wqqueue...
@@ -1912,14 +1938,6 @@ the above comment is a complete sentence, beginning with the name of the element
  // punctuation properly.
 
 - let's try it with our stack package...
-
-* Exercise: Object-Oriented Programming
-
-- create a `bank` package which defines a type called a `BankAccount`
-- at the very least, the `BankAccount` type should have an owner name (string) and a balance (float64)
-- add methods `Deposit`, `Withdraw`, `CheckBalance`
-- also add a Stringer method so that a `BankAccount` can be printed out in a nice human-readable way
-- EXTRA: add a method to combine two accounts into a joint account
 
 * Resources
 .link https://golang.org/doc/ Official Docs
