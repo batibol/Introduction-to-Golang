@@ -400,7 +400,7 @@ Source files for the `rand` package are prefaced with
 - packages can be given a nickname in the event of a name collision (two packages with the same name)
 - you can import a package such that you don't need to use the package name prefix when accessing functions and data inside the package (not recommended)
 
-.play -edit src/package.go
+.code src/package.go
 
 * Packages: Identifiers Beginning with Upper Case Letters are Exported 
 
@@ -1891,6 +1891,114 @@ use test tables
 aim for 100% coverage
 
 - but only if your tests are actually testing what they should be
+
+* Benchmarking
+
+* Benchmarks
+- examine the performance of your Go code
+- part of the `testing` package
+- placed inside `*_test.go` files, prefaced with `Benchmark` as opposed to Test
+- benchmark functions take a single argument, a pointer to a testing.B
+- executed with go test -bench <regexp>
+- use . to run all benchmarks
+- benchmarks are run several times by the testing package
+- the value of b.N will increase each time until the benchmark runner is satisfied with the stability of the benchmark
+
+* Benchmarks (cont'd)
+
+ func Fib(n int) int {
+         if n < 2 {
+                 return n
+         }
+         return Fib(n - 1) + Fib(n - 2)
+ }
+
+ func BenchmarkFib10(b *testing.B) {
+         // run the Fib function b.N times
+         for n := 0; n < b.N; n++ {
+                 Fib(10)
+         }
+ }
+
+ 
+ 
+ 
+ 
+  
+ .
+
+.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go How to Write Benchmarks in Go
+
+* Benchmarks (cont'd)
+ $ go test -bench=.
+ goos: darwin
+ goarch: amd64
+ pkg: fib
+ BenchmarkFib10-4        5000000           359 ns/op
+ PASS
+ ok      fib    2.184s
+
+- PASS output is from running tests
+- use -run <regexp> if you want to avoid running tests
+- second line is number of times test was run (i.e., b.N), followed by average execution time for the test
+
+.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go How to Write Benchmarks in Go
+
+* Benchmarking Various Inputs
+- given that the Fib function is the classic recursive implementation, we’d expect it to slow down exponentially for large values of n
+- we can rewrite our benchmark slightly using a common pattern
+
+ func benchmarkFib(i int, b *testing.B) {
+        for n := 0; n < b.N; n++ {
+                 Fib(i)
+         }
+ }
+
+ func BenchmarkFib1(b *testing.B)  { benchmarkFib(1, b) }
+ func BenchmarkFib2(b *testing.B)  { benchmarkFib(2, b) }
+ func BenchmarkFib3(b *testing.B)  { benchmarkFib(3, b) }
+ func BenchmarkFib10(b *testing.B) { benchmarkFib(10, b) }
+ func BenchmarkFib20(b *testing.B) { benchmarkFib(20, b) }
+ func BenchmarkFib40(b *testing.B) { benchmarkFib(40, b) }
+
+- note that `benchmarkFib` has to be private to prevent the testing driver from trying to run it directly
+
+.link https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go How to Write Benchmarks in Go
+
+* Benchmarking Various Inputs (cont'd)
+ $ go test -bench=.
+ goos: darwin
+ goarch: amd64
+ pkg: fib
+ BenchmarkFib1-4        1000000000             2.59 ns/op
+ BenchmarkFib2-4        200000000             7.07 ns/op
+ BenchmarkFib3-4        100000000            12.0 ns/op
+ BenchmarkFib10-4        3000000           433 ns/op
+ BenchmarkFib20-4          30000         52993 ns/op
+ BenchmarkFib40-4              2     779718761 ns/op
+ PASS
+ ok      fib    12.440s
+
+- each benchmark runs for a minimum of 1 second by default
+- if the second has not elapsed when the Benchmark function returns, the value of b.N is increased in the sequence 1, 2, 5, 10, 20, 50, … and the function run again
+- the final `BenchmarkFib40` only ran twice with the average just under 1s per run
+- we can increase the minimum benchmark time using the -benchtime flag to produce a more accurate result
+
+* Benchmarking Gotchas
+
+- two examples of a faulty benchmark...
+
+ func BenchmarkFibWrong(b *testing.B) {
+         for n := 0; n < b.N; n++ {
+                 Fib(n)
+         }
+ }
+
+ func BenchmarkFibWrong2(b *testing.B) {
+         Fib(b.N)
+ }
+
+- these benchmarks will never complete because the runtime of the benchmark increases as b.N grows
 
 * Documentation
 

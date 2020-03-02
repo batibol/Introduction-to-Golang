@@ -1,11 +1,11 @@
 package main
 
-//import "math/rand"
-//import myrand "other/rand" // avoid "rand" name clash
-import . "fmt" // can now use fmt functions without "fmt" prefix
+import "math/rand" // HL
+import myrand "other/rand" // HL
+import . "fmt" // HL
 
 func main() {
-	// ...
-	Println(m.Pi)
-	// ...
+	rand.Seed(...)
+	myrand.Something(...)
+	Println("Hello, world!")
 }
