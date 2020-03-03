@@ -622,6 +622,12 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 
 .play -edit src/switch4.go /START OMIT/,/END OMIT/
 
+* switch: regular expressions
+
+- if you want to match a particular pattern, you can use Golang's regular expression package in conjunction with having `switch` call a function
+
+.play -edit src/switch5.go /START OMIT/,/END OMIT/
+
 * switch: fallthrough
 
 - in C, each branch of a switch statement must be terminated with a `break` statement, or else execution will "fall through" to the next branch–WITHOUT RUNNING THE TEST–after a branch is executed
@@ -682,13 +688,15 @@ OR: implement the factorial function, n! = n * (n - 1) * ... * 1
 
 Write a function which implements the Collatz Conjecture:
 
-- start with an integer > 1
+- it should accept an integer >= 1 (return `false` if < 1)
 
 - if it's even, divide it by 2
 
-- it it's odd, multiply it by 3 and add 1
+- if it's odd, multiply it by 3 and add 1
 
 - stop when the the result is 1
+
+- return `true` for success 
 
 * for loop as Infinite Loop
 
@@ -698,7 +706,7 @@ Write a function which implements the Collatz Conjecture:
 
 * Exercise: for Loop as Infinite Loop
 
-- write an infinite loop that reads a line of input from the user, expecting it to be an integer 
+- write an infinite loop that reads a string using `fmt.Scanf` and then uses `strconv.Atoi` to convert it to an integer
 - if you can't convert to an integer, print an error message and prompt the user again
 - stop the loop when the user complies, i.e., an integer is entered
 

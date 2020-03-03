@@ -2,24 +2,26 @@ package main
 
 import "fmt"
 
+// START OMIT
+import "regexp"
+
 func main() {
-	// START OMIT
-	num := 1111
+	var email = regexp.MustCompile(`^[^@]+@[^@.]+\.[^@.]+`)
+	var shortPhone = regexp.MustCompile(`^[0-9][0-9][0-9][.\-]?[0-9][0-9][0-9][0-9]`)
+	var longPhone = regexp.MustCompile(`^[(]?[0-9][0-9][0-9][). \-]*[0-9][0-9][0-9][.\-]?[0-9][0-9][0-9][0-9]`)
+
+	contact := "foo@bar.com"
 
 	switch {
-	case num > 1000:
-		fmt.Println("greater than 1000")
-		fallthrough // HL
-
-	case num > 100:
-		fmt.Println("greater than 100")
-		fallthrough // HL
-
-	case num > 10:
-		fmt.Println("greater than 10")
-
+	case email.MatchString(contact):
+		fmt.Println(contact, "is an email")
+	case shortPhone.MatchString(contact):
+		fmt.Println(contact, "is a short phone number")
+	case longPhone.MatchString(contact):
+		fmt.Println(contact, "is a long phone number")
 	default:
-		fmt.Println("less than 10")
+		fmt.Println(contact, "is not recognized")
 	}
-	// END OMIT
 }
+
+//END OMIT
