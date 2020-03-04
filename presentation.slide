@@ -1389,6 +1389,53 @@ know when to panic:
 - when the user explicity says so
 - during initialization (maybe, if can't recover)
 
+* Sidebar: Writing/Modifying Terraform Providers
+
+* Sidebar: Writing/Modifying Terraform Providers
+- we've built a solid foundation of Golang knowledge
+- next step is to dig in to Terraform providers and understand the code 
+- it's well-documented, but this is not a trivial task!
+- we could easily build a 2-3 day course on this, aimed at working Golang programmers (and perhaps we should)
+- some jumping off points...
+
+.link https://www.terraform.io/docs/extend/writing-custom-providers.html Writing Custom Providers
+
+.link https://github.com/hashicorp/terraform-plugin-sdk/blob/master/helper/schema/provider.go What is a provider?
+
+.link https://www.hashicorp.com/resources/creating-terraform-provider-for-anything Creating a Terraform Provider for Anything
+
+.link https://github.com/terraform-providers/terraform-provider-aws The AWS Provider
+
+.link https://github.com/sethvargo/terraform-provider-googlecalendar/blob/master/main.go Google Calendar Provider
+
+* Advice
+
+- don't think of providers as automation scripts, i.e., bite-sized chunks we can understand and modify quickly
+
+- remember that we're not going to become Golang experts in 3 days–our goal was to build a solid foundation that you can continue to build on
+
+- dig through source code for Golang packages, to give you more experience with Golang syntax/semantics 
+
+- some "fun" ones to look at might be 
+
+.link https://github.com/golang/go/blob/master/src/strconv/itoa.go Itoa
+
+.link https://github.com/golang/go/blob/master/src/errors/errors.go errors package
+
+.link https://github.com/golang/go/blob/master/src/sort sort package
+
+.link https://github.com/golang/go/blob/master/src/strings/strings.go strings package
+
+* Advice (cont'd)
+
+- try to replicate the functionality of some of the functions inside Golang packages, then compare your solution to the actual code
+
+- look at outstanding issues for existing Terraform providers and understand the problem as best you can–if possible, try to come up with a fix and test it
+
+- this is difficult stuff and it requires a solid programming background, so keep digging in and once you feel more confident in your Golang skills...
+
+- any local experts who are willing to do a walkthrough with your team?
+
 * Reading/Writing Files
 
 * Reading Files
