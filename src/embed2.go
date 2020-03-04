@@ -7,12 +7,11 @@ type Mountain struct {
 	Elevation int
 }
 
+//START OMIT
 type Climb struct {
 	Mountain
 	Climber string
 }
-
-//START OMIT
 
 func (m Mountain) HowBig() string { // HL
 	if m.Elevation > 8800 {
@@ -21,7 +20,6 @@ func (m Mountain) HowBig() string { // HL
 	return "NORMAL"
 }
 
-// This method overrides the one above
 func (c Climb) HowBig() string { // HL
 	return "OVERRIDE!"
 }

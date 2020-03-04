@@ -622,7 +622,7 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 
 .play -edit src/switch4.go /START OMIT/,/END OMIT/
 
-* switch: regular expressions
+* switch: Regular Expressions
 
 - if you want to match a particular pattern, you can use Golang's regular expression package in conjunction with having `switch` call a function
 
@@ -633,7 +633,7 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 - in C, each branch of a switch statement must be terminated with a `break` statement, or else execution will "fall through" to the next branch–WITHOUT RUNNING THE TEST–after a branch is executed
 - in Go, if you want to fall through, you must explicitly state it
 
-.play -edit src/switch5.go /START OMIT/,/END OMIT
+.play -edit src/switch6.go /START OMIT/,/END OMIT
 
 * Exercise: Fizzbuzz
 
@@ -837,13 +837,19 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Arrays (cont'd)
 
-- no need to specify size when initializing
+- can be initialized when declared
 
 .play -edit src/array2.go /START OMIT/,/END OMIT/
 
-* 2-D Arrays
+* Arrays (cont'd)
+
+- no need to specify size when initializing
 
 .play -edit src/array3.go /START OMIT/,/END OMIT/
+
+* 2-D Arrays
+
+.play -edit src/array4.go /START OMIT/,/END OMIT/
 
 * Slices
 - key data type in Go
@@ -1040,7 +1046,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Methods
 - Go is not object oriented...or is it?
-- Go does not have classes, but we can define methods on struct types
+- Go does not have classes, but we can define methods on `struct` types
 - types and methods allow for an OO style of progamming
 - Go does not support inheritance, but later we'll see the use of composition and interfaces
 - suppose we define a type called triangle
@@ -1076,14 +1082,14 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 .code src/method3.go
 
-- we generally want all of our methods to either accept a pointer or a type, so the consumer of our code is not confused (when to pass a pointer vs. when to pass a value), so we'd rewrite like so...
+- we generally want all of our methods to receive either a pointer or a type, rather than having a mix of receiver types, but this will not be obvious until we know a bit more...
 
 * Methods (cont'd)
 
 .play -edit src/method4.go /START OMIT/,/END OMIT/
 
 * Defining Methods on Other Types
-- you can define methods on any type in your package (not just structs)
+- you can define methods on any type in your package (not just `struct`)
 - you can't define a method on a type from another package
 - you can't define a method on a basic type, but you can create your own type via Go's type extensibility
 
@@ -1123,25 +1129,26 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Embedding (cont'd)
 
-- let's make a silly method for Mountains called _HowBig()_
+- let's make a silly method for Mountains called `HowBig()`
 
 .play -edit src/method5.go /START OMIT/,/END OMIT/
 
 * Embedding (cont'd)
 
-- now we'll demonstrate the object of type Climb can invoke the _HowBig()_ method
+- now we'll demonstrate the object of type Climb can invoke the `HowBig()` method
 
 .play -edit src/method6.go /START OMIT/,/END OMIT/
 
 * Overloading
-- suppose we want the _embedding_ type to _override_ a methodin the _embedded_ type
+- suppose we want the _embedding_ type to _override_ a method in the _embedded_ type
 - that is, we want a method in the embedding type to have the same name as a method in the embedded type
-- when we do this, the method in the embedded type will be "hidden" or "overriden" by the method in the embedding type
-- ...but we can access the overriden method by referring to it explicitly
+- the method in `Mountain` will be "overriden" by the method in `Climb`
 
-.play -edit src/embed2.go /START OMIT/,/END OMIT/
+.code src/embed2.go /START OMIT/,/END OMIT/
 
 * Overloading (cont'd)
+
+- ...but we can access the overriden method by referring to it explicitly
 
 .play -edit src/embed3.go /START OMIT/,/END OMIT/
 

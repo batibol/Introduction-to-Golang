@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // START OMIT
-func product(nums ...int) {
+func product(nums ...int) { // HL
 	prod := 1
 	for _, num := range nums {
 		prod *= num

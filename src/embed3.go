@@ -7,13 +7,13 @@ type Mountain struct {
 	Elevation int
 }
 
-//START OMIT
 type Climb struct {
 	Mountain
 	Climber string
 }
 
-func (m Mountain) HowBig() string {
+//START OMIT
+func (m Mountain) HowBig() string { // HL
 	if m.Elevation > 8800 {
 		return "HUGE"
 	}
@@ -21,7 +21,7 @@ func (m Mountain) HowBig() string {
 }
 
 // This method overrides the one above
-func (c Climb) HowBig() string {
+func (c Climb) HowBig() string { // HL
 	return "OVERRIDE!"
 }
 
@@ -29,8 +29,10 @@ func main() {
 	c2 := Climb{
 		Mountain{"K2", 8111}, "Arjun Climber",
 	}
-	fmt.Println(c2.HowBig())          // will call overriding method
-	fmt.Println(c2.Mountain.HowBig()) // will call overridden method
+	// will call overriding method
+	fmt.Println(c2.HowBig()) // HL
+	// will call overridden method
+	fmt.Println(c2.Mountain.HowBig()) // HL
 }
 
 //END OMIT

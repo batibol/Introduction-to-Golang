@@ -4,13 +4,12 @@ import "fmt"
 
 // START OMIT
 func main() {
-    var twoD [3][5]int // 2-dimensional array
-    for i := 0; i < 3; i++ {
-        for j := 0; j < 5; j++ {
-            twoD[i][j] = (i + 1) * (j + 1)
-        }
-    	fmt.Println("Row", i, twoD[i])
-    }
-    fmt.Println("\nAll at once:", twoD)
+    // ellipsis (...) can be used in place of size
+    // if array is being intialized
+    nums := [...]float32{ 1.4, 2.67, -3.56 } // HL
+    fmt.Println("len(nums) =", len(nums))
+    chars := [...]rune{ 'G', 'o', 'l', 'a', 'n', 'g', '€' } // HL
+    fmt.Printf("%q\n", chars) // %q == quoted
+    fmt.Println(chars) // values are actually int32
 }
 // END OMIT

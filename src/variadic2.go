@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func product(nums ...int) {
+func product(nums ...int) { // HL
 	prod := 1
 	for _, num := range nums {
 		prod *= num
@@ -13,7 +13,7 @@ func product(nums ...int) {
 // START OMIT
 func main() {
 	nums := []int{2, 3, 4, -1}
-	product(nums...)
+	product(nums...) // HL
 }
 
 // END OMIT
