@@ -1408,6 +1408,38 @@ know when to panic:
 
 .link https://github.com/sethvargo/terraform-provider-googlecalendar/blob/master/main.go Google Calendar Provider
 
+* What Do Terraform Providers Look Like?
+
+- providers are plugins which are actually (Golang) binaries
+
+- the "root" of the provider contains this boilerplate code which defines and empty provider (i.e., it contains no resources)
+
+.code src/provider.go
+
+* What Do Terraform Providers Look Like? (cont'd)
+
+- providers are binaries, so we need an entry point
+- the `plugin` library handles the communication between `terraform` and the plugin
+
+.code src/main.go
+
+* What Do Terraform Providers Look Like? (cont'd)
+
+- providers are abstractions of APIs (e.g., AWS, Google Calendar, etc.)
+
+- provider manager resources
+- let's see a resource called "server"
+
+.code src/resource_server.go /START OMIT/,/END OMIT/
+
+* What Do Terraform Providers Look Like? (cont'd)
+
+.code src/resource_funcs.go
+
+* Now Register the New Resource
+
+.code src/provider2.go
+
 * Advice
 
 - don't think of providers as automation scripts, i.e., bite-sized chunks we can understand and modify quickly
