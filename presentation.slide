@@ -7,6 +7,9 @@ DevelopIntelligence
 dws@developintelligence.com
 http://www.developintelligence.com
 
+*
+.background images/checkin.png
+
 * Overview
 
 * Introductions
@@ -2154,3 +2157,4 @@ the above comment is a complete sentence, beginning with the name of the element
 .link https://github.com/golang/go/wiki/SliceTricks Go Slice Tricks
 .link https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md Go 2.0 Draft: Error Handling
 .link https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md Go 2.0 Error Handling — Problem Overview
+
