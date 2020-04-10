@@ -6,35 +6,38 @@ import (
 )
 
 type MyInterface interface {
-    Method()
+	Method()
 }
 
 type Text struct {
-    String string
+	String string
 }
 
-func (t *Text) Method() {
-    fmt.Println(t.String)
+func (t Text) Method() {
+	fmt.Println(t.String)
 }
 
-type MyFloat float64
+type MyFloat struct {
+	val float64
+}
 
 func (f MyFloat) Method() {
-    fmt.Println(f)
+	fmt.Println(f.val)
 }
 
 // START OMIT
 func describe(i MyInterface) {
-    fmt.Printf("(%v, %T)\n", i, i)
+	fmt.Printf("(%v, %T)\n", i, i)
 }
 
 func main() {
-    var inter MyInterface
-    inter = &Text{"Hello"} // pointer to Text object // HL
-    describe(inter)
-    inter.Method()
-    inter = MyFloat(math.Pi) // MyFloat object // HL
-    describe(inter)
-    inter.Method()
+	var inter MyInterface
+	inter = &Text{"Hello"} // pointer to Text object // HL
+	describe(inter)
+	inter.Method()
+	inter = MyFloat{math.Pi}
+	describe(inter)
+	inter.Method()
 }
+
 // END OMIT

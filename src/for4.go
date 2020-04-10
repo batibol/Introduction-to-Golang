@@ -13,6 +13,7 @@ func main() {
 	for { // HL
 		fmt.Println("Infinite loop!")
 		if rand.Int31n(10) > 8 {
+			fmt.Println("break!")
 			break
 		}
 	} // HL

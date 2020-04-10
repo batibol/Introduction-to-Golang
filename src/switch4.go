@@ -8,15 +8,14 @@ import (
 )
 
 func main() {
-	sec := time.Now().Unix() // get seconds since 1970
-	rand.Seed(int64(sec))    // use seconds to seed random number generator
-	r := rand.Int()          // generate a random integer
+	rand.Seed(time.Now().Unix()) // use seconds since 1970 to seed random number generator
+	r := rand.Float64()          // generate random number between 0 and 1
 
 	switch { // HL
-	case r%2 == 0:
-		fmt.Println("Random number is even")
+	case r > 0.1:
+		fmt.Println("Common case, 90% of the time")
 	default:
-		fmt.Println("Random number is odd")
+		fmt.Println("10% of the time")
 	} // HL
 }
 

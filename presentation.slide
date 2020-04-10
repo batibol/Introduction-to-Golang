@@ -318,18 +318,18 @@ believe it or not, it's pronounced "`fumpt`"
 - formatted print a la C/C++/Java
 - %s = print a string value
 - %d = print an integer value
+- %f = print a float value
 
 .play -edit src/printf.go /START OMIT/,/END OMIT/
 
 * fmt.Printf (cont'd)
-- %f = print a float value
 - %v = print the value in a default format
 - %T = print the type of the variable
 - %t = print a Boolean value as true or false
 
 .play -edit src/printf2.go /START OMIT/,/END OMIT/
 
-* Sprintf
+* fmt.Sprintf
 
 - "print" into a string, rather than to the screen
 - also `Sprint` and `Sprintln`
@@ -355,8 +355,6 @@ _much_ _better_ than fmt, but somewhat lacking as loggers go
 * Simple Logging Example
 
 .play src/logging.go
-
-.link https://play.golang.org/p/wte3ZV9oqjV view in playground
 
 * Packages
 
@@ -389,10 +387,9 @@ Source files for the `rand` package are prefaced with
 
 * The main Package
 
-- every Go program is made up of packages
 - as we know, execution begins in package main
 - when building a standalone executable, main must exist 
-- when building a package, there won't be a main 
+- when building a reusable package, there won't be a main 
 
 * Importing Packages
 
@@ -406,6 +403,7 @@ Source files for the `rand` package are prefaced with
 
 - if you want something to be private, start its name with a lower case letter
 - if you want something to be public, start its name with an upper case letter
+- no public or private keyword
 
 .code src/example.go
 
@@ -415,14 +413,16 @@ Source files for the `rand` package are prefaced with
 - be sure to export at least one function and one constant
 - build your package with go build
 - install your package with go install
-- write a program in different subdirectory which makes use of your package
+- write a program in different subdirectory which imports your package
 
 * Possibly Painful Pedantry?
 - Go complains about unused variables and imports
 - ...and the Go compiler has no warnings
 - you may be annoyed by this, but the Go team explains it well...
 
-.play -edit src/unused.go
+.play src/unused.go
+
+.link https://play.golang.org/p/OzTo_vd9ADo view in playground
 
 * Possibly Painful Pedantry? (cont'd)
 “The presence of an unused variable may indicate a bug, while unused imports just slow down compilation, an effect that can become substantial as a program accumulates code and programmers over time. For these reasons, Go refuses to compile programs with unused variables or imports, trading short-term convenience for long-term build speed and program clarity.
@@ -542,13 +542,14 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 - note that '+' is the way to concatenate two strings
 - your function should not return anything, it should modify its argument directly
 - write a main program to test your function
-- once you've done that, make it so that `doubler` calls a second function, `doublerHelper` which actually does the doubling
+- once you've done that, make it so that `doubler` calls a second function, `doublerHelper` which actually does the doubling (to understand how to pass
+pointers around)
 
 * Functions as Arguments
 
 .play src/funcasarg.go
 
-* User Inputs
+* Getting Input from the User 
 
 * Command-Line Args
 
@@ -562,7 +563,7 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 
 - write a program which takes two command line args representing integers and prints out their sum
 - test it on your machine since it won't run in the playground
-- hint: remember Atoi in the `strconv` package (https://golang.org/pkg/strconv)
+- hint: remember Atoi in the `strconv` package (https://golang.org/pkg/strconv) and ignore errors for now
 
 * Interactive User Input
 - `fmt` package contains `Scan`, `Scanf`, `Scanln` functions to read from keyboard
@@ -593,7 +594,7 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 
 .play -edit src/if.go
 
-* if / else (cont'd)
+* compound if statement
 - a statement can precede conditionals
 - any variables declared in this statement are available in all branches
 - very idiomatic in Golang
@@ -603,11 +604,11 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 * switch Statement
 - express conditionals across many branches
 - no parens
-- multiple expressions allowed
+- simplest form...
 
 .play -edit src/switch.go /START OMIT/,/END OMIT/
 
-* switch: Multiple Expressions
+* switch: Match Against Multiple Expressions
 
 .play -edit src/switch2.go
 
@@ -707,7 +708,8 @@ Write a function which implements the Collatz Conjecture:
 * Exercise: for Loop as Infinite Loop
 
 - write an infinite loop that reads a string using `fmt.Scanf` and then uses `strconv.Atoi` to convert it to an integer
-- if you can't convert to an integer, print an error message and prompt the user again
+- if the conversion fails integer, print an error message and prompt the user again 
+- since we don't yet know how to deal with errors returned from functions, just examine the int returned from `strconv.Atoi` and treat 0 as an error
 - stop the loop when the user complies, i.e., an integer is entered
 
 * continue Statement
@@ -830,8 +832,9 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Arrays
 - both type of element and length are part of the type
-- cannot be resized, but not an issue as we'll see shortly
+- cannot be resized
 - zero-valued by default
+- brittle, but still useful
 
 .play -edit src/array.go /START OMIT/,/END OMIT/
 
@@ -849,27 +852,51 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * 2-D Arrays
 
+- array of arrays
+- each row is a 1-D array
+
 .play -edit src/array4.go /START OMIT/,/END OMIT/
 
 * Slices
-- key data type in Go
-- a more powerful interface to sequences than arrays
+- key datatype in Go
+- more powerful interface to sequences than arrays
 - slices are typed only by elements they contain (not number of elements)
 - to create an empty slice with non-zero length, use builtin `make` function
 
 .play -edit src/slice.go /START OMIT/,/END OMIT/
 
-* Slices: append() / copy()
+* Slices: append()
 - `append()` returns a new slice containing appended items
-- slices can also be `copy()`-ed
+- Why is the syntax of `append()` the way it is?
 
-.play -edit src/slice2.go /START OMIT/,/END OMIT/
+.play -edit src/slice2.go /START OMIT/,/END OMIT
 
 * Slicing Slices
 
 - slices (and arrays) support a slicing operator (much like Python)
 
 .play -edit src/slice3.go /START OMIT/,/END OMIT/
+
+* What does slice our look like?
+
+.image images/slice.png 600 900
+
+* ...and slice1?
+
+.image images/slice1.png 600 900
+
+* Slices: copy()
+
+- if we want to make a copy of a slice we need to use the `copy()` function
+- ...but first we need to make a new slice to receive the copy
+
+.play -edit src/slice4.go /START OMIT/,/END OMIT/
+
+* Slices without make()
+
+- we can declare a slice inline, without using `make()`
+
+.play -edit src/slice5.go /START OMIT/,/END OMIT/
 
 * Slices vs. Arrays
 - an array type definition specifies both length and element type
@@ -907,13 +934,13 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 .image images/go-slices-cap.png
 
-* nil Slice
+* nil slice vs. empty slice
 
-- The zero value of a slice is nil
-- a nil slice has a length and capacity of 0 (and has no underlying array)
-- note that a nil slice is not the same as an empty slice
+- the zero value of a slice is nil
+- a nil slice has a length and capacity of 0, but has no underlying array
+- a nil slice is not the same as an empty slice, which have an underlying array of size 0
 
-.play -edit src/slice4.go /START OMIT/,/END OMIT/
+.play -edit src/slicenil.go /START OMIT/,/END OMIT/
 
 * Exercise: Slices
 
@@ -927,6 +954,17 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - each number is the sum of the previous Fibonacci numbers
 - so `fib(6)` should return an int slice of size 6 containing 1, 1, 2, 3, 5, 8
 - in the event of an error, fib should return the nil slice
+
+* Variadic Functions
+- can be called with any number of arguments
+- e.g., `fmt.Println` is a variadic function 
+
+.play -edit src/variadic.go
+
+* Variadic Functions (cont'd)
+- if you already have the args in a slice, you can pass them as individual args using the ... notation
+
+.play -edit src/variadic2.go /START OMIT/,/END OMIT/
 
 * Maps
 
@@ -970,17 +1008,6 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - the second value is the rune itself
 
 .play -edit src/range5.go /START OMIT/,/END OMIT/
-
-* Variadic Functions
-- can be called with any number of arguments
-- e.g., `fmt.Println` is a variadic function 
-
-.play -edit src/variadic.go
-
-* Variadic Functions (cont'd)
-- if you already have the args in a slice, you can pass them as individual args using the ... notation
-
-.play -edit src/variadic2.go /START OMIT/,/END OMIT/
 
 * Exercise: Maps
 - use a map to translate Roman numerals into their Arabic equivalents
@@ -1040,8 +1067,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
  }{
  	{"a A x", 'A', 2},
  	{"some_text=some_value", '=', 9},
- 	{"☺a", 'a', 3},
- 	{"a☻☺b", '☺', 4},
+ 	{"finster", "E", -1},
  }
 
 * Methods
@@ -1162,7 +1188,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 - via encapsulation, we can manipulate the singleton object, but can't see its implementation
 - the package writer could change the implementation and as long as the same API was exposed, everything would still work
-.play -edit src/encapsulation.go
+.code src/encapsulation.go
  
 * Interfaces
 - an interface is a type, defined by a set of methods
@@ -1671,7 +1697,7 @@ and then run it
 - your "database server" should simply be a goroutine which accepts an integer representing some "work" to do and it sleeps for that amount of time before accepting more work
 - your main routine should get integers from the user, and pass those to the "server"
 - once you have that working, make it more complex...
-- add a second server goroutine, and use a select statement to send the work to whichever server is able to accept it (to test this, ssend a big chunk of work, i.e., a large int, to one of them, and then be sure the other can do subsequent work in the meantime)
+- add a second server goroutine, and use a select statement to send the work to whichever server is able to accept it (to test this, send a big chunk of work, i.e., a large int, to one of them, and then be sure the other can do subsequent work in the meantime)
 
 * Exercise (cont'd)
 - still more...how about a load balancer goroutine which spins up new server routines as needed up to some maximum (i.e., if it sees that no servers are available, it spins up more)
@@ -1682,9 +1708,11 @@ and then run it
 * Exercise (cont'd)
 - although we normally would share memory by communicating...
 - add a shared queue, which can simply a slice of ints that you add to by appending, and remove from by slicing the queue, i.e.,
+
  // remove an item from the queue
  item = queue[0]
  queue = queue[1:]
+
 - wrap the queue in a `Mutex` to prevent simultaneous accesses
 - the queue holds work to be performed and is filled by the main routine and drained by the load balancer, or remove the load balancer and let the workers remove something from the queue as they are free
 - also let workers randomly reject work and place it back in the wqqueue...

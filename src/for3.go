@@ -1,14 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 func main() {
-    num := -1
+	var num int64
+	rand.Seed(time.Now().Unix()) // seed the random number generator
 
-    for num < 0 { // HL
-        fmt.Print("Enter a positive number: ")
-        fmt.Scanln(&num) // won't work in playground!
-    } // HL
-
-    fmt.Println("Thanks for following directions!")
+	for num != 5 { // HL
+		num = rand.Int63n(15)
+		fmt.Println(num)
+	} // HL
 }

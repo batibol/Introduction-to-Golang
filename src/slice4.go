@@ -4,17 +4,13 @@ import "fmt"
 
 // START OMIT
 func main() {
-	var n []int
-	fmt.Println(n, len(n), cap(n))
-	if n == nil {
-		fmt.Println("nil!")
-	}
-	z := make([]int, 0)
-	fmt.Println(z, len(z), cap(z))
-	if z == nil {
-		fmt.Println("nil!")
-	}
-
+	s := make([]string, 3)
+	s[0], s[1], s[2] = "zero", "one", "two"
+	fmt.Println("initial slice:", s)
+	copy_of_s := make([]string, len(s)) // HL
+	copy(copy_of_s, s)                  // HL
+	copy_of_s[0] = "ZERO!"
+	fmt.Printf("%v\n%v", copy_of_s, s)
 }
 
 // END OMIT
