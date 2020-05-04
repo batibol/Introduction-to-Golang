@@ -36,6 +36,8 @@ Programmers were choosing ease over safety and efficiency by moving to dynamical
 
 * "Old programs read like quiet conversations between a well-spoken research worker and a well-studied mechanical colleague, not as a debate with a compiler. Who'd have guessed sophistication brought such noise?" -Dick Gabriel
 
+* "The complexity of C++, and the resulting impact on productivity, is no longer justified. All the hoops that the C++ programmer had to jump through in order to use a C-compatible language make no sense anymore–they're just a waste of time and effort. Go makes much more sense for the class of problems that C++ was originally intended to solve." -Bruce Eckel
+
 * Philosophy
 
 A new programming language which addressed common criticisms of other languages
