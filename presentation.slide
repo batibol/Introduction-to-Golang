@@ -72,9 +72,26 @@ Another goal is...speed!
 
 - Back-end (web) development
 
+- Automation
+
+- Command-line tools
+
 - Concurrency
 
 - Systems programming (operating systems, utility software, device drivers, compilers, and linkers)
+
+- What projects/tools do you know of that are written in Go...?
+
+* Written in Golang
+
+- Docker
+- Kubernetes
+- Terraform
+- Netflix
+- Dropbox
+- SoundCloud
+- Uber
+- Drone
 
 * Principles
 
