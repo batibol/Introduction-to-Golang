@@ -1,21 +1,23 @@
 package main
 
+// START OMIT
 import "fmt"
 
-// START OMIT
-func product(nums ...int) { // HL
-	prod := 1
-	for _, num := range nums {
-		prod *= num
+func variadic(words ...string) { // HL
+	for i := 0; i < len(words); i++ {
+		fmt.Print(words[i])
+		if len(words[i]) == 6 {
+			fmt.Print(" ***")
+		}
+		fmt.Println()
 	}
-	fmt.Println(nums, prod)
 }
 
 func main() {
 	// Variadic functions can be called in the usual way with individual arguments
-	product(3, 4)
-	product(2, 3, 4, 5, 6)
-	product()
+	variadic("this", "that", "hello", "Golang")
+	variadic("C++", "Python")
+	variadic()
 }
 
 // END OMIT

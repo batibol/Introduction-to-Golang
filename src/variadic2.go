@@ -2,18 +2,20 @@ package main
 
 import "fmt"
 
-func product(nums ...int) { // HL
-	prod := 1
-	for _, num := range nums {
-		prod *= num
+func variadic(words ...string) { // HL
+	for i := 0; i < len(words); i++ {
+		fmt.Print(words[i])
+		if len(words[i]) == 6 {
+			fmt.Print(" ***")
+		}
+		fmt.Println()
 	}
-	fmt.Println(nums, prod)
 }
 
 // START OMIT
 func main() {
-	nums := []int{2, 3, 4, -1}
-	product(nums...) // HL
+	words := []string{"local", "locale", "localize"}
+	variadic(words...) // HL
 }
 
 // END OMIT

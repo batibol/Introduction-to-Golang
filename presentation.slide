@@ -716,7 +716,7 @@ Write a function which implements the Collatz Conjecture:
 
 - as we are no doubt used to from other languages, we can break out of the enclosing loop with the keyword `break` 
 
-.play -edit src/for4.go
+.play -edit src/for4.go /START OMIT/,/END OMIT/
 
 * Exercise: for Loop as Infinite Loop
 
@@ -972,12 +972,18 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - can be called with any number of arguments
 - e.g., `fmt.Println` is a variadic function 
 
-.play -edit src/variadic.go
+.play -edit src/variadic.go /START OMIT/,/END OMIT/
 
 * Variadic Functions (cont'd)
 - if you already have the args in a slice, you can pass them as individual args using the ... notation
 
 .play -edit src/variadic2.go /START OMIT/,/END OMIT/
+
+* Exercise: Variadic Functions
+
+- write a variadic function called `product` which takes a variable number of integers and returns their product
+- if no integers are passed, `product` should return 1
+- e.g., `product`(1, 2, 3) should return 6
 
 * Maps
 
