@@ -555,8 +555,7 @@ Write a function `doubler` which takes a string argument and doubles it, i.e., "
 - note that '+' is the way to concatenate two strings
 - your function should not return anything, it should modify its argument directly
 - write a main program to test your function
-- once you've done that, make it so that `doubler` calls a second function, `doublerHelper` which actually does the doubling (to understand how to pass
-pointers around)
+- once you've done that, make it so that `doubler` calls a second function, `doublerHelper` which actually does the doubling (to understand how to pass pointers around)
 
 * Functions as Arguments
 
@@ -721,7 +720,7 @@ Write a function which implements the Collatz Conjecture:
 * Exercise: for Loop as Infinite Loop
 
 - write an infinite loop that reads a string using `fmt.Scanf` and then uses `strconv.Atoi` to convert it to an integer
-- if the conversion fails integer, print an error message and prompt the user again 
+- if the conversion fails to produce an integer, print an error message and prompt the user again 
 - since we don't yet know how to deal with errors returned from functions, just examine the int returned from `strconv.Atoi` and treat 0 as an error
 - stop the loop when the user complies, i.e., an integer is entered
 
@@ -770,7 +769,7 @@ Write a function which implements the Collatz Conjecture:
 .play -edit src/continuelabel.go
 
 * defer
-`defer` pushes a function call onto a list, and the saved calls are executed just prior to the surrounding function returning
+`defer` pushes a function call onto a stack, and the saved calls are executed just prior to the surrounding function returning
 
 commonly used to simplify functions with cleanup actions
 
@@ -957,7 +956,7 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Exercise: Slices
 
-- there are two main ways to write a function that uses slices…either accept as slice as input and iterate through it, or have your function return a slice that it allocates from within the function
+- there are two main ways to write a function that uses slices…either accept a slice as input and iterate through it, or have your function return a slice that it allocates from within the function
 
 1. write a function `minmaxavg` which accepts a float64 slice and returns four values: the minimum value in the slice, the maximum value in the slice, the average of all the values, and an indication of success (as we did previously)
 
@@ -1269,20 +1268,25 @@ here's a generic measure function which works on any geometry
 * Interface Values
 - under the hood, interface values can be thought of as a tuple of a value and a concrete type: (value, type)
 - an interface value holds a value of a specific underlying concrete type
-- calling a method on an interface value executes the method of the same name on its underlying type
 
+ type MyInterface interface {
+     Method()
+ }
+  
  type Text struct {
- 	String string
+     String string
  }
-
+ 
  func (t Text) Method() {
- 	fmt.Println(t.String)
+     fmt.Println(t.String)
  }
-
- type MyFloat float64
-
+ 
+ type MyFloat struct {
+     val float64
+ }
+ 
  func (f MyFloat) Method() {
- 	fmt.Println(f)
+     fmt.Println(f.val)
  }
 
 * Interface Values (cont'd)
