@@ -1,4 +1,4 @@
-# Intro Golang
+# Golang Fundamentals
 
 The presentation is in **go present** format (https://godoc.org/golang.org/x/tools/present)
 
