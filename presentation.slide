@@ -971,6 +971,9 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - can be called with any number of arguments
 - e.g., `fmt.Println` is a variadic function 
 
+3. write a function counter which accepts a slice of strings and returns a new slice of the strings which contains 3 or more e's
+- check out the `strings` package
+
 .play -edit src/variadic.go /START OMIT/,/END OMIT/
 
 * Variadic Functions (cont'd)
