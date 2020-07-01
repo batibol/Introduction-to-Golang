@@ -1106,16 +1106,16 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 
 * Methods (cont'd)
 
-- here a method to compute the area of a triangle via Heron's formula...
+- here a method to compute the perimeter of a triangle...
 
-.code src/method1.go
+.code src/method2.go
 
 - notice that the function (or method) above has a different syntax
 - the above is a _method_, and the _method_ _receiver_ (the type that the method acts upon) appears in its own argument list between the `func` keyword and the method name
 
-- here's another one...
+- here's a method to compute the area of a triangle using Heron's formula...
 
-.code src/method2.go
+.code src/method1.go
 
 * Methods (cont'd)
 
@@ -1185,6 +1185,12 @@ while the identifier of the inner declaration is in scope, it denotes the entity
 - now we'll demonstrate the object of type Climb can invoke the `HowBig()` method
 
 .play -edit src/method6.go /START OMIT/,/END OMIT/
+
+* Exercise: Embedding
+- create a `Customer` type in your `Bank` package
+- add a `Customer` method such as `ChangeName`
+- embed a `Customer` inside a `BankAccount` object
+- demonstrate that you can change the customer's name via the BankAccount object
 
 * Overloading
 - suppose we want the _embedding_ type to _override_ a method in the _embedded_ type
@@ -1422,8 +1428,8 @@ here's a generic measure function which works on any geometry
 
 .play -edit src/error3.go /START OMIT/,/END OMIT/
 
-* Lab: Error Handling
-- modify your square root (or other) function from earlier to return a custom error as well as the existing return value
+* Exercise : Error Handling
+- modify your square root (or Withdraw) function from earlier to return a custom error as well as the existing return value
 - test it with a main program that sends a valid argument as well as an invalid argument
 - access the fields of the custom error programmatically using type assertion
 
@@ -1773,6 +1779,12 @@ add additional methods to the Stack module:
 - `IsEmpty`: return a Boolean indicating whether stack is empty
 - `Size`: returns number of elements on stack (could be used by IsEmpty)
 - add tests for each of these methods
+
+add tests to your `bank` package
+- try to Deposit/Withdraw a negative amount
+- try to Withdraw more than your balance
+- try to create a `bankAccount` with no name
+- anything else you can think of...
 
 * "Example" Tests
 - like unit tests, but instead of verifying results programmatically, it verifies output
